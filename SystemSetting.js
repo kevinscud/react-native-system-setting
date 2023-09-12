@@ -64,8 +64,8 @@ export default class SystemSetting {
     /**
      * @deprecated use grantWriteSettingPermission instead
      */
-    static grantWriteSettingPremission() {
-        __DEV__ && console.warn('grantWriteSettingPremission has been renamed to grantWriteSettingPermission, see https://github.com/c19354837/react-native-system-setting/pull/98')
+    static grantWriteSettingPermission() {
+        __DEV__ && console.warn('grantWriteSettingPermission has been renamed to grantWriteSettingPermission, see https://github.com/c19354837/react-native-system-setting/pull/98')
         SystemSetting.grantWriteSettingPermission()
     }
 
@@ -207,12 +207,12 @@ export default class SystemSetting {
                 if (supported) await Linking.openURL(settingsLink);
                 break;
             }
-            case 'android': 
+            case 'android':
                 await SystemSettingNative.openAppSystemSettings()
                 break;
             default:
                 throw new Error('unknown platform')
-                break;    
+                break;
         }
     }
 
