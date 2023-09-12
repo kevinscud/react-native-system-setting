@@ -1,6 +1,6 @@
 # iOS
 
-Some functions are diabled by default:
+Some functions are disabled by default:
 
 * `switchWifi()`
 * `switchBluetooth()`

@@ -6,7 +6,7 @@ It provides some system setting APIs for you. Support iOS and Android both.
 
 * Volume ( with listener)
 * Brightness
-* Wifi switch
+* Wi-Fi switch
 * Location
 * Bluetooth
 * Airplane
@@ -29,9 +29,9 @@ I really want to show the .gif, while it has no difference with .jpg for some sy
 
 I strongly recommend you to run the example in real device to see how it works.
 
-<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/ios.png" width = "40%"/>
+<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/ios.png" width = "40%" alt="ios"/>
 &nbsp;&nbsp;&nbsp;
-<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/android.jpg" width = "40%" />
+<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/android.jpg" width = "40%" alt="android"/>
 
 ## Install
 
@@ -85,13 +85,16 @@ import com.ninty.system.setting.SystemSettingPackage;
 Add the `SystemSettingPackage` class to your list of exported packages.
 
 ```java
-@Override
-protected List<ReactPackage> getPackages(){
-        return Arrays.asList(
-        new MainReactPackage(),
-        new SystemSettingPackage()
+class MainApplication extends Application implements ReactApplication {
+    // ...
+    @Override
+    protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new SystemSettingPackage()
         );
-        }
+    }
+}
 ```
 
 ## Usage
@@ -105,7 +108,7 @@ import SystemSetting from 'react-native-system-setting'
 **volume**
 
 ```javascript
-//get the current volume
+// get the current volume
 SystemSetting.getVolume().then((volume) => {
     console.log('Current volume is ' + volume);
 });
@@ -119,7 +122,7 @@ const volumeListener = SystemSetting.addVolumeListener((data) => {
     console.log(volume);
 });
 
-//remove listener when you need it no more
+// remove listener when you need it no more
 SystemSetting.removeVolumeListener(volumeListener)       
 ```
 
@@ -128,12 +131,12 @@ SystemSetting.removeVolumeListener(volumeListener)
 **brightness**
 
 ```javascript
-//get the current brightness
+// get the current brightness
 SystemSetting.getBrightness().then((brightness) => {
     console.log('Current brightness is ' + brightness);
 });
 
-//change the brightness & check permission
+// change the brightness & check permission
 SystemSetting.setBrightnessForce(0.5).then((success) => {
     !success && Alert.alert('Permission Deny', 'You have no permission changing settings', [
         {'text': 'Ok', style: 'cancel'},
@@ -145,7 +148,7 @@ SystemSetting.setBrightnessForce(0.5).then((success) => {
 SystemSetting.saveBrightness();
 // restore the brightness and screen mode. you can get the old brightness value.
 SystemSetting.restoreBrightness().then((oldVal) => {
-    //if you need
+    // if you need
 })
 
 // change app's brightness without any permission.
@@ -244,13 +247,13 @@ SystemSetting.openAppSystemSettings()
 
 ## Run example
 
-```
-$ cd example/SystemSettingExample
-$ npm install
-// if android
-$ react-native run-android
-// else
-$ react-native run-ios
+```bash
+cd example/SystemSettingExample
+npm install
+# if android
+react-native run-android
+# else
+react-native run-ios
 ```
 
 ## iOS
@@ -270,7 +273,6 @@ see [example AndroidManifest.xml](https://github.com/c19354837/react-native-syst
 **`android/app/src/main/AndroidManifest.xml`**
 
 ```xml
-
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="YourPackageName"
           android:versionCode="1"
@@ -291,7 +293,7 @@ see [example AndroidManifest.xml](https://github.com/c19354837/react-native-syst
     <!-- * switchBluetoothSilence() -->
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
-    ...
+    <!-- ... -->
 
 </manifest>
 ```
