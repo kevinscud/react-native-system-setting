@@ -514,7 +514,7 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     @Override
     public void onActivityResult(Activity activity, int requestCode, int resultCode, Intent data) {
         SysSettings setting = SysSettings.get(requestCode);
-        if (setting != SysSettings.UNKNOW) {
+        if (setting != SysSettings.UNKNOWN) {
             mContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                     .emit("EventEnterForeground", null);
             mContext.removeActivityEventListener(this);

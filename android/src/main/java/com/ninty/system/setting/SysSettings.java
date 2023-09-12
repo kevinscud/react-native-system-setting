@@ -4,7 +4,7 @@ import android.provider.Settings;
 
 public enum SysSettings {
 
-    UNKNOW("", 0),
+    UNKNOWN("", 0),
     WIFI(Settings.ACTION_WIFI_SETTINGS, 1),
     LOCATION(Settings.ACTION_LOCATION_SOURCE_SETTINGS, 2),
     BLUETOOTH(Settings.ACTION_BLUETOOTH_SETTINGS, 3),
@@ -25,6 +25,6 @@ public enum SysSettings {
                 return setting;
             }
         }
-        return UNKNOW;
+        return UNKNOWN;
     }
 }
