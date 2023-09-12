@@ -10,10 +10,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by ninty on 2017/5/29.
- */
-
 public class SystemSettingPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
@@ -24,7 +20,7 @@ public class SystemSettingPackage implements ReactPackage {
         return modules;
     }
 
-    // It has been removed in >= 0.47
+    // Removed in React-Native >= 0.47
     public List<Class<? extends JavaScriptModule>> createJSModules() {
         return Collections.emptyList();
     }

@@ -27,10 +27,6 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
-/**
- * Created by ninty on 2017/5/29.
- */
-
 public class SystemSetting extends ReactContextBaseJavaModule implements ActivityEventListener, LifecycleEventListener {
 
     private String TAG = SystemSetting.class.getSimpleName();

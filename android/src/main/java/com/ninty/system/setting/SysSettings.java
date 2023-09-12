@@ -2,10 +2,6 @@ package com.ninty.system.setting;
 
 import android.provider.Settings;
 
-/**
- * Created by ninty on 2017/7/2.
- */
-
 public enum SysSettings {
 
     UNKNOW("", 0),
