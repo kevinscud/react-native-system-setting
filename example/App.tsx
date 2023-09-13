@@ -1,118 +1,57 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+import React, { useState, useEffect } from 'react';
+import { View, Text, Button, Alert } from 'react-native';
+import SystemSetting from 'react-native-system-setting';
 
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+const App = () => {
+  const [volume, setVolume] = useState<number | null>(null);
+  const [brightness, setBrightness] = useState<number | null>(null);
+  const [wifiState, setWifiState] = useState<string | null>(null);
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+  useEffect(() => {
+    // Get initial volume and brightness values
+    SystemSetting.getVolume().then(setVolume);
+    SystemSetting.getBrightness().then(setBrightness);
 
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
+    // Get initial WiFi state
+    SystemSetting.isWifiEnabled().then((enable) => {
+      setWifiState(enable ? 'On' : 'Off');
+    });
 
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
+    // Setup volume listener
+    const volumeListener = SystemSetting.addVolumeListener((data) => {
+      setVolume(data.value);
+    });
 
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+    // Cleanup listener on component unmount
+    return () => {
+      SystemSetting.removeVolumeListener(volumeListener);
+    };
+  }, []);
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  const handleIncreaseBrightness = () => {
+    if (brightness !== null) {
+      SystemSetting.setBrightnessForce(brightness + 0.1).catch(() => {
+        Alert.alert(
+          'Permission Deny',
+          'You have no permission changing settings',
+          [
+            { text: 'Ok', style: 'cancel' },
+            { text: 'Open Setting', onPress: () => SystemSetting.grantWriteSettingPermission() },
+          ],
+        );
+      });
+    }
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+    <View style={{ padding: 20 }}>
+      <Text>Volume: {volume}</Text>
+      <Text>Brightness: {brightness}</Text>
+      <Text>WiFi State: {wifiState}</Text>
 
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
+      <Button title="Increase Brightness" onPress={handleIncreaseBrightness} />
+    </View>
+  );
+};
 
 export default App;
