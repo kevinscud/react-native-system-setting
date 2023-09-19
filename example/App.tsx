@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {Alert, Button, StyleSheet, Switch, Text, View} from 'react-native';
-import systemSetting, {CompleteFunc, VolumeData} from 'react-native-system-setting';
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, StyleSheet, Switch, Text, View } from 'react-native';
+import systemSetting, { CompleteFunc, VolumeData } from 'react-native-system-setting';
 import Slider from '@react-native-community/slider';
 
 const styles = StyleSheet.create({
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 const sliderTrackTintColor = {
     minimumTrackTintColor: '#FFFFFF',
     maximumTrackTintColor: '#000000',
-}
+};
 
 const App: React.FC = () => {
     const [volume, setVolume] = useState<number | null>(null);
@@ -24,6 +24,7 @@ const App: React.FC = () => {
     const [wifiState, setWifiState] = useState<boolean | null>(null);
     const [locationState, setLocationState] = useState<boolean | null>(null);
     const [bluetoothState, setBluetoothState] = useState<boolean | null>(null);
+    const [permissions, setPermissions] = useState({ writeSettingsPermissions: false });
 
     const fetchValues = () => {
         systemSetting.getVolume().then(setVolume);
@@ -45,7 +46,20 @@ const App: React.FC = () => {
         };
     }, []);
 
+    const checkPermissions = async () => {
+        try {
+            const writeSettingsPermissions = await systemSetting.checkWriteSettingsPermissions();
+            setPermissions({ writeSettingsPermissions });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const handleBrightnessChange = async (value: number) => {
+        if (!permissions.writeSettingsPermissions) {
+            return;
+        }
+
         try {
             const result = await systemSetting.setBrightnessForce(value);
             if (!result) {
@@ -62,6 +76,10 @@ const App: React.FC = () => {
     };
 
     const handleVolumeChange = async (value: number) => {
+        if (!permissions.writeSettingsPermissions) {
+            return;
+        }
+
         try {
             const volumeType = 'music';
             systemSetting.setVolume(value, {
@@ -83,6 +101,8 @@ const App: React.FC = () => {
 
     return (
         <View style={styles.container}>
+            <Button title="Check Permissions" onPress={checkPermissions} />
+
             <Text>Volume: {volume}</Text>
             {volume !== null && (
                 <Slider
@@ -92,8 +112,8 @@ const App: React.FC = () => {
                     value={volume}
                     onValueChange={handleVolumeChange}
                     {...sliderTrackTintColor}
+                    disabled={!permissions.writeSettingsPermissions}
                 />
-
             )}
 
             <Text>Brightness: {brightness}</Text>
@@ -105,26 +125,26 @@ const App: React.FC = () => {
                     value={brightness}
                     onValueChange={handleBrightnessChange}
                     {...sliderTrackTintColor}
+                    disabled={!permissions.writeSettingsPermissions}
                 />
-
             )}
 
             <Text>WiFi State: {wifiState ? 'On' : 'Off'}</Text>
             {wifiState !== null && (
-                <Switch value={wifiState} onValueChange={handleSwitchChange(setWifiState, systemSetting.switchWifi)}/>
+                <Switch value={wifiState} onValueChange={handleSwitchChange(setWifiState, systemSetting.switchWifi)} />
             )}
 
             <Text>Location State: {locationState ? 'On' : 'Off'}</Text>
             {locationState !== null && (
-                <Switch value={locationState} onValueChange={handleSwitchChange(setLocationState, systemSetting.switchLocation)}/>
+                <Switch value={locationState} onValueChange={handleSwitchChange(setLocationState, systemSetting.switchLocation)} />
             )}
 
             <Text>Bluetooth State: {bluetoothState ? 'On' : 'Off'}</Text>
             {bluetoothState !== null && (
-                <Switch value={bluetoothState} onValueChange={handleSwitchChange(setBluetoothState, systemSetting.switchBluetooth)}/>
+                <Switch value={bluetoothState} onValueChange={handleSwitchChange(setBluetoothState, systemSetting.switchBluetooth)} />
             )}
 
-            <Button title="Refresh Values" onPress={fetchValues}/>
+            <Button title="Refresh Values" onPress={fetchValues} />
         </View>
     );
 };
