@@ -31,6 +31,8 @@ interface VolumeData {
 }
 
 interface SystemSetting {
+  addListener: (eventName: string) => void;
+  removeListeners: (count: number) => void;
   getBrightness: () => Promise<number>;
   setBrightness: (val: number) => Promise<boolean>;
   setBrightnessForce: (val: number) => Promise<boolean>;

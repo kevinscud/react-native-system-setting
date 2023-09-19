@@ -199,6 +199,25 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
         return SystemSetting.class.getSimpleName();
     }
 
+    /**
+     *
+     * @see https://stackoverflow.com/questions/69538962/new-nativeeventemitter-was-called-with-a-non-null-argument-without-the-requir
+     * @param eventName the name of the event
+     */
+    @ReactMethod
+    public void addListener(String eventName) {
+
+    }
+
+    /**
+     * @see https://stackoverflow.com/questions/69538962/new-nativeeventemitter-was-called-with-a-non-null-argument-without-the-requir
+     * @param count the number of listeners to remove
+     */
+    @ReactMethod
+    public void removeListeners(Integer count) {
+
+    }
+
     @ReactMethod
     public void setScreenMode(int mode, Promise promise) {
         mode = mode == Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL ? mode : Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
