@@ -61,6 +61,12 @@ export default class SystemSetting {
         }
     }
 
+    static async checkWriteSettingsPermissions() {
+        if (Utils.isAndroid) {
+            return await SystemSettingNative.checkWriteSettingsPermissions()
+        }
+        return true // cannot check iOS permissions
+    }
 
     static grantWriteSettingPermission() {
         if (Utils.isAndroid) {

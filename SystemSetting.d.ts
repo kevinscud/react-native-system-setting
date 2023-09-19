@@ -36,6 +36,7 @@ interface SystemSetting {
   setBrightnessForce: (val: number) => Promise<boolean>;
   getAppBrightness: () => Promise<number>;
   setAppBrightness: (val: number) => Promise<true>;
+  checkWriteSettingsPermissions: () => Promise<boolean>;
   grantWriteSettingPermission: () => void;
   getScreenMode: () => Promise<number>;
   setScreenMode: (val: number) => Promise<boolean>;

@@ -259,6 +259,19 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     }
 
     @ReactMethod
+    public void checkWriteSettingsPermissions(Promise promise) {
+        boolean reject = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.System.canWrite(mContext)) {
+            reject = true;
+        }
+        if (reject) {
+            promise.reject("-1", "write_settings permission is blocked by system");
+        } else {
+            promise.resolve(true);
+        }
+    }
+
+    @ReactMethod
     public void openWriteSetting() {
         Intent intent = new Intent(SysSettings.WRITE_SETTINGS.action, Uri.parse("package:" + mContext.getPackageName()));
         mContext.getCurrentActivity().startActivity(intent);
