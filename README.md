@@ -1,62 +1,61 @@
-## react-native-system-setting
+# react-native-system-setting
 
-It provides some system setting APIs for you. Support iOS and Android both.
+System setting APIs for iOS and Android
 
-### Support
+## Support
 
-* Volume ( with listener)
+* Volume (with listener)
 * Brightness
 * Wi-Fi switch
 * Location
 * Bluetooth
 * Airplane
 
-### Note
+## Note
 
-**[Example](https://github.com/c19354837/react-native-system-setting/tree/master/examples/SystemSettingExample) only
-work in the real device**
+**[Example](./example) only works on a real device**
 
-### Change Log
+## Change Log
 
-[Change Log](https://github.com/c19354837/react-native-system-setting/blob/master/CHANGELOG.md)
+[Change Log](./CHANGELOG.md)
 
-breaking change for permission since V1.5.0,
+Breaking change for permission since `V1.5.0`,
 see [Android Permission](https://github.com/c19354837/react-native-system-setting#android-permission)
 
-## Look like
+## How it looks
 
-I really want to show the .gif, while it has no difference with .jpg for some system limit.
-
-I strongly recommend you to run the example in real device to see how it works.
-
-<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/ios.png" width = "40%" alt="ios"/>
-&nbsp;&nbsp;&nbsp;
-<img src="https://raw.githubusercontent.com/c19354837/react-native-system-setting/master/screenshot/android.jpg" width = "40%" alt="android"/>
+_todo: add screenshots and a video usage example_
 
 ## Install
 
-Run `npm i -S react-native-system-setting`
+Using npm:
 
-**Note: if your project was created
-by [Create React Native App](https://github.com/react-community/create-react-native-app), you
-should [Eject](https://github.com/react-community/create-react-native-app/blob/master/EJECTING.md) before link it.**
+```bash
+npm install react-native-system-setting --save
+```
+
+or using yarn:
+
+```bash
+yarn add react-native-system-setting
+```
+
+### Link
+
+If using react-native < 0.60, run `react-native link` to link this library.
 
 #### iOS
 
-Run `react-native link` to link this library.
+_todo: confirm this_
 
-Or add `pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'` in `Podfile` for Cocoapods.
+Add `pod 'RCTSystemSetting', :path => '../node_modules/react-native-system-setting'` in `Podfile` for Cocoapods.
 
-If link does not work, you can do
+If linking with `react-native link` did not work, you can do
 it [manually](https://facebook.github.io/react-native/docs/linking-libraries-ios.html).
 
 #### Android
 
-Run `react-native link` to link this library.
-
-That's all.
-
-If link does not work, you can do it manually. Just follow this way:
+If linking with `react-native link` did not work, you can do it manually by following these steps:
 
 **android/settings.gradle**
 
@@ -76,7 +75,7 @@ dependencies {
 
 **android/app/src/main/java/..packageName../MainApplication.java**
 
-On top, where imports are:
+At the top of the file, import `react-native-system-setting`:
 
 ```java
 import com.ninty.system.setting.SystemSettingPackage;
@@ -90,8 +89,8 @@ class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-            new SystemSettingPackage()
+                new MainReactPackage(),
+                new SystemSettingPackage()
         );
     }
 }
@@ -99,13 +98,13 @@ class MainApplication extends Application implements ReactApplication {
 
 ## Usage
 
-**Common import**
+### Common import
 
 ```javascript
 import SystemSetting from 'react-native-system-setting'
 ```
 
-**volume**
+### Volume
 
 ```javascript
 // get the current volume
@@ -126,9 +125,9 @@ const volumeListener = SystemSetting.addVolumeListener((data) => {
 SystemSetting.removeVolumeListener(volumeListener)       
 ```
 
-> `setVolume` can do more, [more detail](https://github.com/c19354837/react-native-system-setting/blob/master/API.md)
+> `setVolume` can do more, [more detail](./API.md)
 
-**brightness**
+### Brightness
 
 ```javascript
 // get the current brightness
@@ -161,7 +160,7 @@ SystemSetting.getAppBrightness().then((brightness) => {
 > `setBrightness()` & `saveBrightness()`
 > need [permission](https://github.com/c19354837/react-native-system-setting#android-permission) for Android
 
-**Wifi**
+### Wi-Fi
 
 ```javascript
 SystemSetting.isWifiEnabled().then((enable) => {
@@ -178,9 +177,9 @@ SystemSetting.switchWifi(() => {
 > Android
 >
 > `switchWifi()` is disabled by default for iOS since
-> V1.7.0, [enable it](https://github.com/c19354837/react-native-system-setting/blob/master/iOS.md#ios)
+> V1.7.0, [enable it](./iOS.md#ios)
 
-**Location**
+### Location
 
 ```javascript
 SystemSetting.isLocationEnabled().then((enable) => {
@@ -194,9 +193,9 @@ SystemSetting.switchLocation(() => {
 ```
 
 > `switchLocation()` is disabled by default for iOS since
-> V1.7.0, [enable it](https://github.com/c19354837/react-native-system-setting/blob/master/iOS.md#ios)
+> V1.7.0, [enable it](./iOS.md#ios)
 
-**Bluetooth**
+### Bluetooth
 
 ```javascript
 SystemSetting.isBluetoothEnabled().then((enable) => {
@@ -213,9 +212,9 @@ SystemSetting.switchBluetooth(() => {
 > for Android
 >
 > All bluetooth-function are disabled by default for iOS since
-> V1.7.0, [enable it](https://github.com/c19354837/react-native-system-setting/blob/master/iOS.md#ios)
+> V1.7.0, [enable it](./iOS.md#ios)
 
-**Airplane**
+### Airplane mode
 
 ```javascript
 SystemSetting.isAirplaneEnabled().then((enable) => {
@@ -232,9 +231,9 @@ SystemSetting.switchAirplane(() => {
 > see [detail](https://github.com/c19354837/react-native-system-setting/issues/37)
 >
 > `switchAirplane()` is disabled by default for iOS since
-> V1.7.0, [enable it](https://github.com/c19354837/react-native-system-setting/blob/master/iOS.md#ios)
+> V1.7.0, [enable it](./iOS.md#ios)
 
-**Other**
+### App System Settings
 
 ```javascript
 // open app setting page
@@ -243,36 +242,41 @@ SystemSetting.openAppSystemSettings()
 
 ## API
 
-[API](https://github.com/c19354837/react-native-system-setting/blob/master/API.md)
+[API](./API.md)
 
 ## Run example
 
 ```bash
-cd example/SystemSettingExample
-npm install
-# if android
-react-native run-android
-# else
+cd example
+yarn
+# for iOS
 react-native run-ios
+# for Android
+react-native run-android
 ```
 
 ## iOS
 
-To be more friendly to app store, I disable some APIs for iOS since V1.7.0, You
-can [enable it](https://github.com/c19354837/react-native-system-setting/blob/master/iOS.md#ios) in a few steps.
+[//]: # (To be more friendly to app store, I disable some APIs for iOS since V1.7.0, You)
+
+[//]: # (can [enable it]&#40;./iOS.md&#41; in a few steps.)
+
+To be app store friendly, APIs for iOS are disabled since `V1.7.0`, You can enable it in a few steps by following
+instructions in [iOS.md](./iOS.md)
 
 ## Android permission
 
 ### API
 
-Default permissions are removed since V1.5.0,
-see [this PR](https://github.com/c19354837/react-native-system-setting/pull/44). You need to declare the corresponding
-permissions in your app's AndroidManifest.xml,
-see [example AndroidManifest.xml](https://github.com/c19354837/react-native-system-setting/blob/master/examples/SystemSettingExample/android/app/src/main/AndroidManifest.xml)
+Default permissions were removed in V1.5.0,
+see [this PR](https://github.com/c19354837/react-native-system-setting/pull/44)
+You need to declare the corresponding permissions in your app's `AndroidManifest.xml`.
+See [example AndroidManifest.xml](./example/android/app/src/main/AndroidManifest.xml)
 
 **`android/app/src/main/AndroidManifest.xml`**
 
 ```xml
+
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="YourPackageName"
           android:versionCode="1"
@@ -299,7 +303,7 @@ see [example AndroidManifest.xml](https://github.com/c19354837/react-native-syst
 ```
 
 > There are some different APIs that end with `silence`. They can do the job programmatically without direct user
-> consent. These APIs maybe useful when you develop a system management app. Or, you should
+> consent. These APIs may be useful when you develop a system management app. You should
 > call `switchWifi()` & `switchBluetooth()` to get a better user experience
 
 ### Do Not Disturb
@@ -309,18 +313,18 @@ See [detail](https://github.com/c19354837/react-native-system-setting/issues/48)
 
 ### Runtime permission for Android 6+
 
-Change *brightness* and *screen mode* need `android.permission.WRITE_SETTINGS` which user can disable it in phone
-Setting. When you call `setScreenMode()`, `setBrightness()` or `setBrightnessForce()` , it will return false if the app
-has no permission, and you can call `SystemSetting.grantWriteSettingPermission()` to guide user to app setting page.
-see [example](https://github.com/c19354837/react-native-system-setting/tree/master/examples/SystemSettingExample)
+Change *brightness* and *screen mode* need `android.permission.WRITE_SETTINGS` which user can disable it in Android
+settings. When you call `setScreenMode()`, `setBrightness()` or `setBrightnessForce()` , it will return `false` if the
+app has no permission, and you can call `SystemSetting.grantWriteSettingPermission()` to guide user to app setting page.
+There is also a `SystemSetting.checkWriteSettingsPermissions()` API to check if the app has `WRITE_SETTINGS` permission.
 
 > If you just want to change app's brightness, you can call `setAppBrightness(val)`, and it doesn't require any
-> permission. see [API](https://github.com/c19354837/react-native-system-setting/blob/master/API.md)
+> permission. see [API](./API.md)
 
-## In the end
+## Contributions are welcome
 
-Feel free to open issue or pull request
+Feel free to open issues or pull requests
 
 ## License
 
-[**MIT**](https://github.com/c19354837/react-native-system-setting/blob/master/LICENSE.md)
+[**MIT**](./LICENSE.md)
