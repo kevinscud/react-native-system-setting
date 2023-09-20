@@ -2,8 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <!-- setBrightness() & setScreenMode() & saveBrightness() -->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
+
+    <!-- isWifiEnabled() -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <!-- isBluetoothEnabled() -->
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+
+    <!-- * switchWifiSilence() -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+
+    <!-- * switchBluetoothSilence() -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
 
     <application
         android:usesCleartextTraffic="true"
