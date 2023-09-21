@@ -115,8 +115,15 @@ const App: React.FC = () => {
     try {
       const writeSettingsPermissions = await systemSetting.checkWriteSettingsPermissions();
       setPermissions({ writeSettingsPermissions });
+
+      if (!writeSettingsPermissions) {
+        console.log("Write Settings Permission is not granted");
+        systemSetting.grantWriteSettingPermission();
+      }
     } catch (error) {
-      console.log(error);
+      console.log("An error occurred while checking permissions:", error);
+      setPermissions({ writeSettingsPermissions: false });
+      systemSetting.grantWriteSettingPermission();
     }
   };
 
