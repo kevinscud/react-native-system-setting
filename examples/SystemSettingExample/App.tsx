@@ -1,118 +1,216 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
-import React from 'react';
-import type {PropsWithChildren} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-type SectionProps = PropsWithChildren<{
-  title: string;
-}>;
-
-function Section({children, title}: SectionProps): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-}
-
-function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-}
+import React, { useEffect, useState } from 'react';
+import { Alert, Button, StyleSheet, Switch, Text, View, ScrollView } from 'react-native';
+import systemSetting, { CompleteFunc, VolumeData } from 'react-native-system-setting';
+import Slider from '@react-native-community/slider';
 
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+  container: {
+    padding: 10,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
+  scrollViewContainer: {
+    flexGrow: 1,
   },
-  sectionDescription: {
-    marginTop: 8,
+  slider: {
+    width: '100%',
+    height: 30,
+    alignSelf: 'center',
+  },
+  spacer: {
+    height: 10,
+  },
+  text: {
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  labelText: {
     fontSize: 18,
-    fontWeight: '400',
+    fontWeight: 'bold',
   },
-  highlight: {
-    fontWeight: '700',
+  valueText: {
+    fontSize: 16,
   },
 });
+
+const sliderTrackTintColor = {
+  minimumTrackTintColor: '#FFFFFF',
+  maximumTrackTintColor: '#000000',
+};
+
+const formatValue = (value: boolean | number | null) => {
+  if (typeof value === 'number') {
+    return `${Math.round(value * 100)}%`;
+  }
+  return value ? 'On' : 'Off';
+};
+
+const SettingSwitch = ({ value, onValueChange, label }: { value: boolean | null, onValueChange: (newValue: boolean) => void, label: string }) => (
+    <View>
+      <Text style={styles.labelText}>{label}</Text>
+      <Text style={styles.valueText}>{formatValue(value)}</Text>
+      {value !== null && (
+          <Switch value={value} onValueChange={onValueChange} />
+      )}
+      <View style={styles.spacer} />
+    </View>
+);
+
+
+
+const App: React.FC = () => {
+  const [volume, setVolume] = useState<number | null>(null);
+  const [brightness, setBrightness] = useState<number | null>(null);
+  const [wifiState, setWifiState] = useState<boolean | null>(null);
+  const [locationState, setLocationState] = useState<boolean | null>(null);
+  const [bluetoothState, setBluetoothState] = useState<boolean | null>(null);
+  const [permissions, setPermissions] = useState({ writeSettingsPermissions: false });
+
+  const fetchValues = () => {
+    systemSetting.getVolume().then(setVolume);
+    systemSetting.getBrightness().then(setBrightness);
+    systemSetting.isWifiEnabled().then(setWifiState);
+    systemSetting.isLocationEnabled().then(setLocationState);
+    systemSetting.isBluetoothEnabled().then(setBluetoothState);
+  };
+
+  useEffect(() => {
+    fetchValues();
+
+    const volumeListener = systemSetting.addVolumeListener((data: VolumeData) => {
+      console.log(`Volume changed: ${data.value}`);
+      setVolume(data.value);
+    });
+
+    const bluetoothListener = systemSetting.addBluetoothListener((bluetoothEnabled: boolean) => {
+      console.log(`Bluetooth state changed: ${bluetoothEnabled}`);
+    });
+
+    const wifiListener = systemSetting.addWifiListener((wifiEnabled: boolean) => {
+      console.log(`WiFi state changed: ${wifiEnabled}`);
+    });
+
+    const locationListener = systemSetting.addLocationListener((locationEnabled: boolean) => {
+      console.log(`Location state changed: ${locationEnabled}`);
+    });
+
+    const locationModeListener = systemSetting.addLocationModeListener((locationMode: number) => {
+      console.log(`Location mode changed: ${locationMode}`);
+    });
+
+    const airplaneListener = systemSetting.addAirplaneListener((airplaneModeEnabled: boolean) => {
+      console.log(`Airplane mode state changed: ${airplaneModeEnabled}`);
+    });
+
+    return () => {
+      systemSetting.removeVolumeListener(volumeListener);
+      systemSetting.removeListener(bluetoothListener);
+      systemSetting.removeListener(wifiListener);
+      systemSetting.removeListener(locationListener);
+      systemSetting.removeListener(locationModeListener);
+      systemSetting.removeListener(airplaneListener);
+    };
+  }, []);
+
+
+  const checkPermissions = async () => {
+    try {
+      const writeSettingsPermissions = await systemSetting.checkWriteSettingsPermissions();
+      setPermissions({ writeSettingsPermissions });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleBrightnessChange = async (value: number) => {
+    if (!permissions.writeSettingsPermissions) {
+      return;
+    }
+
+    try {
+      const result = await systemSetting.setBrightnessForce(value);
+      if (!result) {
+        Alert.alert('Permission Denied', 'You have no permission changing settings', [
+          { text: 'Ok', style: 'cancel' },
+          { text: 'Open Setting', onPress: () => systemSetting.grantWriteSettingPermission() },
+        ]);
+      } else {
+        setBrightness(value);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleVolumeChange = async (value: number) => {
+    if (!permissions.writeSettingsPermissions) {
+      return;
+    }
+
+    try {
+      const volumeType = 'music';
+      systemSetting.setVolume(value, {
+        type: volumeType,
+        playSound: false,
+        showUI: false,
+      });
+      setVolume(value);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleSwitchChange = (setter: React.Dispatch<React.SetStateAction<boolean | null>>, switchFunction: (onComplete?: CompleteFunc) => void) => (newValue: boolean) => {
+    switchFunction(() => {
+      setter(newValue);
+    });
+  };
+
+  const { writeSettingsPermissions } = permissions;
+
+  return (
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <View style={styles.container}>
+          <Button title="Refresh Values" onPress={fetchValues} />
+          <View style={styles.spacer} />
+
+          <Button title="Check Permissions" onPress={checkPermissions} />
+          <View style={styles.spacer} />
+
+          <Text style={styles.labelText}>Volume</Text>
+          <Text style={styles.valueText}>{formatValue(volume)} (raw: {volume})</Text>
+          {volume !== null && (
+              <Slider
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={1}
+                  value={volume}
+                  onValueChange={handleVolumeChange}
+                  {...sliderTrackTintColor}
+                  disabled={!writeSettingsPermissions}
+              />
+          )}
+          <View style={styles.spacer} />
+
+          <Text style={styles.labelText}>Brightness</Text>
+          <Text style={styles.valueText}>{formatValue(brightness)} (raw: {brightness})</Text>
+          {brightness !== null && (
+              <Slider
+                  style={styles.slider}
+                  minimumValue={0}
+                  maximumValue={1}
+                  value={brightness}
+                  onValueChange={handleBrightnessChange}
+                  {...sliderTrackTintColor}
+                  disabled={!writeSettingsPermissions}
+              />
+          )}
+          <View style={styles.spacer} />
+
+          <SettingSwitch value={wifiState} onValueChange={handleSwitchChange(setWifiState, systemSetting.switchWifi)} label="WiFi State" />
+          <SettingSwitch value={locationState} onValueChange={handleSwitchChange(setLocationState, systemSetting.switchLocation)} label="Location State" />
+          <SettingSwitch value={bluetoothState} onValueChange={handleSwitchChange(setBluetoothState, systemSetting.switchBluetooth)} label="Bluetooth State" />
+        </View>
+      </ScrollView>
+  );
+}
 
 export default App;
