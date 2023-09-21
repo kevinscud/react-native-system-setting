@@ -1,0 +1,54 @@
+name: Build and Test SystemSettingExample
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: ./examples/SystemSettingExample/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('examples/SystemSettingExample/package-lock.json') }}
+          restore-keys: ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: |
+          cd ./examples/SystemSettingExample
+          npm install
+
+      - name: Lint
+        run: |
+          cd ./examples/SystemSettingExample
+          npm run lint
+
+      - name: Run Tests
+        run: |
+          cd ./examples/SystemSettingExample
+          npm run test
+
+      - name: Build Android (React Native)
+        run: |
+          cd ./examples/SystemSettingExample
+          npx react-native run-android --variant=release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: system-setting-example-artifact
+          path: ./examples/SystemSettingExample/android/app/build/outputs/apk/release/app-release.apk
