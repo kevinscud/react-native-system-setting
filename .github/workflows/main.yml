@@ -1,3 +1,5 @@
+# .github/workflows/build.yml
+
 name: Build and Test SystemSettingExample
 
 on:
@@ -20,28 +22,28 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache Node Modules
+      - name: Cache Yarn Modules
         uses: actions/cache@v3
         with:
           path: ./examples/SystemSettingExample/node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('examples/SystemSettingExample/package-lock.json') }}
-          restore-keys: ${{ runner.os }}-node-
+          key: ${{ runner.os }}-yarn-${{ hashFiles('examples/SystemSettingExample/yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-
 
       - name: Install Dependencies
         run: |
           cd ./examples/SystemSettingExample
-          npm install
+          yarn install
 
 # TODO: uncomment me
 #       - name: Lint
 #         run: |
 #           cd ./examples/SystemSettingExample
-#           npm run lint
+#           yarn lint
 #
 #       - name: Run Tests
 #         run: |
 #           cd ./examples/SystemSettingExample
-#           npm run test
+#           yarn test
 
       - name: Build Android (React Native)
         run: |
