@@ -20,6 +20,16 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Cache Yarn Modules (root level)
+        uses: actions/cache@v3
+        with:
+          path: ./node_modules
+          key: ${{ runner.os }}-yarn-root-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.os }}-yarn-root-
+
+      - name: Install Dependencies (root level)
+        run: yarn install
+
       - name: Cache Yarn Modules
         uses: actions/cache@v3
         with:
