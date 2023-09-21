@@ -70,7 +70,7 @@ jobs:
       - name: Build Android (React Native)
         run: |
           cd ./examples/SystemSettingExample
-          yarn android:build
+          yarn run android:build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
