@@ -13,7 +13,7 @@ System setting APIs for iOS and Android
 
 ## Note
 
-**[Example](./example) only works on a real device**
+**[Example](./examples/SystemSettingExample) only works on a real device**
 
 ## Change Log
 
@@ -271,7 +271,7 @@ instructions in [iOS.md](./iOS.md)
 Default permissions were removed in V1.5.0,
 see [this PR](https://github.com/c19354837/react-native-system-setting/pull/44)
 You need to declare the corresponding permissions in your app's `AndroidManifest.xml`.
-See [example AndroidManifest.xml](./example/android/app/src/main/AndroidManifest.xml)
+See [example AndroidManifest.xml](./examples/SystemSettingExample/android/app/src/main/AndroidManifest.xml)
 
 **`android/app/src/main/AndroidManifest.xml`**
 
