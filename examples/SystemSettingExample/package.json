@@ -7,7 +7,9 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "build:android": "cd android && ./gradlew assembleRelease",
+    "build:ios": "cd ios && xcodebuild -workspace SystemSettingExample.xcworkspace -scheme SystemSettingExample -configuration Release -sdk iphoneos -derivedDataPath build"
   },
   "dependencies": {
     "@react-native-community/slider": "^4.4.3",

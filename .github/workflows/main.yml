@@ -42,6 +42,20 @@ jobs:
           cd ./examples/SystemSettingExample
           yarn install
 
+      - name: Confure Android SDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+          cache: 'gradle'
+
+      - name: Cache Gradle
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle-
+
 # TODO: uncomment me
 #       - name: Lint
 #         run: |
@@ -56,7 +70,7 @@ jobs:
       - name: Build Android (React Native)
         run: |
           cd ./examples/SystemSettingExample
-          npx react-native run-android --variant=release
+          yarn android:build
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
