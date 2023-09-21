@@ -24,7 +24,7 @@ see [Android Permission](https://github.com/c19354837/react-native-system-settin
 
 ## How it looks
 
-_todo: add screenshots and a video usage example_
+![Android Screenshot](./screenshot/android_example.png)
 
 ## Install
 
