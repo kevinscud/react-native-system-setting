@@ -1,5 +1,3 @@
-# .github/workflows/build.yml
-
 name: Build and Test SystemSettingExample
 
 on:
