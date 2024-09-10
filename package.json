@@ -1,12 +1,12 @@
 {
-    "name": "react-native-system-setting",
-    "version": "1.7.6",
-    "description": "provide some system setting APIs. Volume, brightness, wifi, location, bluetooth, airplane...",
+    "name": "react-native-system-settings-ts",
+    "version": "1.7.8",
+    "description": "Fork of react-native-system-settings that provides some system setting APIs. Volume, brightness, wifi, location, bluetooth, airplane...",
     "main": "SystemSetting.js",
     "types": "SystemSetting.d.ts",
-    "homepage": "https://github.com/c19354837/react-native-system-setting",
+    "homepage": "https://github.com/kevinscud/react-native-system-setting",
     "bugs": {
-        "url": "https://github.com/c19354837/react-native-system-setting/issues"
+        "url": "https://github.com/kevinscud/react-native-system-setting/issues"
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,14 +22,13 @@
         "bluetooth",
         "airplane"
     ],
-    "author": {
-        "name": "Ninty",
-        "email": "c19354837@hotmail.com",
-        "url": "https://github.com/c19354837"
-    },
+    "author": "Ninty <c19354837@hotmail.com> (https://github.com/c19354837)",
     "repository": {
         "type": "git",
-        "url": "https://github.com/c19354837/react-native-system-setting.git"
+        "url": "git+https://github.com/kevinscud/react-native-system-setting.git"
     },
-    "license": "MIT"
+    "license": "MIT",
+    "directories": {
+        "example": "examples"
+    }
 }
