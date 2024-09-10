@@ -33,7 +33,7 @@ see [Android Permission](https://github.com/c19354837/react-native-system-settin
 Using npm:
 
 ```bash
-npm install react-native-system-setting --save
+npm i react-native-system-settings-ts --save
 ```
 
 or using yarn:
