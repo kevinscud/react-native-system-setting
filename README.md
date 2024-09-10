@@ -1,6 +1,8 @@
-# react-native-system-setting
+# react-native-system-setting-ts
 
 System setting APIs for iOS and Android
+
+This library is a fork of [react-native-system-setting](https://github.com/c19354837/react-native-system-setting) that addresses the `new NativeEventEmitter()` warning.
 
 ## Support
 
