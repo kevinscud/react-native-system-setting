@@ -2,7 +2,7 @@
 
 System setting APIs for iOS and Android
 
-This library is a fork of [react-native-system-setting](https://github.com/c19354837/react-native-system-setting) that addresses the `new NativeEventEmitter()` warning.
+This library is a fork of [react-native-system-setting](https://github.com/c19354837/react-native-system-setting) that addresses the `new NativeEventEmitter()` warning and `NullPointerException` on registerVolumeReceiver.
 
 ## Support
 
