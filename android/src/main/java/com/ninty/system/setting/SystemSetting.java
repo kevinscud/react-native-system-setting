@@ -72,8 +72,12 @@ public class SystemSetting extends ReactContextBaseJavaModule implements Activit
     }
 
     private void unregisterVolumeReceiver() {
-        if (volumeBR != null && volumeBR.isRegistered()) {
-            mContext.unregisterReceiver(volumeBR);
+        if (volumeBR != null) {
+            try {
+                mContext.unregisterReceiver(volumeBR);
+            } catch (IllegalArgumentException e) {
+                Log.w(TAG, "Volume receiver already unregistered");
+            }
             volumeBR.setRegistered(false);
         }
     }
